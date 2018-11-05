@@ -165,11 +165,15 @@ public class SpeechBubbleHandler extends EffectHandlerBase {
 		final Entity entity = WorldUtils.locateEntity(EnvironState.getWorld(), event.entityId);
 		if (entity == null)
 			return;
-		else if ((entity instanceof EntityPlayer) && !ModOptions.speechbubbles.enableSpeechBubbles)
+		// If the message came from a player and the client does not have speech bubbles enabled,
+		// just return
+		if ((entity instanceof EntityPlayer) && !ModOptions.speechbubbles.enableSpeechBubbles)
 			return;
-		else if (!ModOptions.speechbubbles.enableEntityChat)
+		// If the message came from a non-player (i.e. a mob) and entity chat is disabled,
+		// just return
+		if (!(entity instanceof EntityPlayer) && !ModOptions.speechbubbles.enableEntityChat)
 			return;
-
+		// Handle the message as appropriate
 		if (event.translate)
 			addSpeechBubbleFormatted(entity, event.message);
 		else
