@@ -47,8 +47,7 @@ public class SoundLoader {
 
 	private final static Map<ResourceLocation, SoundMetadata> soundMetadata = new HashMap<>();
 	private final static Map<ResourceLocation, SoundEvent> myRegistry = new HashMap<>();
-	private static SoundEvent SILENCE;
-
+	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
 	public static void registerSounds(@Nonnull final RegistryEvent.Register<SoundEvent> event) {
 		DSurround.log().info("Registering sounds");
@@ -73,8 +72,6 @@ public class SoundLoader {
 		StreamUtil.asStream(SoundEvent.REGISTRY.iterator()).forEach(se -> myRegistry.put(se.getRegistryName(), se));
 		StreamUtil.asStream(registry.iterator()).forEach(se -> myRegistry.put(se.getRegistryName(), se));
 
-		SILENCE = myRegistry.get(new ResourceLocation(DSurround.MOD_ID, "silence"));
-
 		DSurround.log().info("%d sound events in registry", myRegistry.size());
 	}
 
@@ -85,10 +82,10 @@ public class SoundLoader {
 
 	@Nonnull
 	public static SoundEvent getSound(final ResourceLocation sound) {
-		final SoundEvent evt = myRegistry.get(sound);
+		SoundEvent evt = myRegistry.get(sound);
 		if (evt == null) {
 			DSurround.log().warn("Cannot find sound that should be registered [%s]", sound.toString());
-			return new SoundEvent(sound);
+			myRegistry.put(sound, evt = new SoundEvent(sound));
 		}
 		return evt;
 	}
