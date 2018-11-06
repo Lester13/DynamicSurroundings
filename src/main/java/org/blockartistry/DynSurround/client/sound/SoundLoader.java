@@ -88,7 +88,7 @@ public class SoundLoader {
 		final SoundEvent evt = myRegistry.get(sound);
 		if (evt == null) {
 			DSurround.log().warn("Cannot find sound that should be registered [%s]", sound.toString());
-			return SILENCE;
+			return new SoundEvent(sound);
 		}
 		return evt;
 	}

@@ -34,7 +34,10 @@ import javax.annotation.Nullable;
 import org.blockartistry.DynSurround.DSurround;
 import org.blockartistry.DynSurround.client.footsteps.interfaces.IAcoustic;
 import org.blockartistry.DynSurround.client.footsteps.util.ConfigProperty;
+import org.blockartistry.DynSurround.client.sound.SoundLoader;
 
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -50,7 +53,15 @@ public class PrimitiveMap {
 
 	@Nullable
 	public IAcoustic[] getPrimitiveMap(@Nonnull final String primitive) {
-		return this.primitiveMap.get(primitive);
+		IAcoustic[] result = this.primitiveMap.get(primitive);
+		if (result == null) {
+			final SoundEvent evt = SoundLoader.getSound(new ResourceLocation(primitive));
+			if(evt != null) {
+				result = this.acousticsManager.compileAcoustics(evt);
+				this.primitiveMap.put(primitive, result);
+			}
+		}
+		return result;
 	}
 
 	@Nullable

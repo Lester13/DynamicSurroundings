@@ -33,6 +33,7 @@ import javax.annotation.Nullable;
 import org.blockartistry.DynSurround.DSurround;
 import org.blockartistry.DynSurround.client.footsteps.interfaces.IAcoustic;
 
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -62,6 +63,19 @@ public class AcousticsManager {
 	@Nullable
 	public IAcoustic getAcoustic(@Nonnull final String name) {
 		return this.acoustics.get(name);
+	}
+
+	/*
+	 * Generates an IAcoustic[] series on the fly based on the
+	 * sound event provided as input.  Used by the primitive
+	 * map to dynamically add sounds that the rest of the system
+	 * did not recognize.
+	 */
+	@Nonnull
+	public IAcoustic[] compileAcoustics(@Nonnull final SoundEvent evt) {
+		final BasicAcoustic acoustic = new BasicAcoustic(evt.getSoundName().toString());
+		acoustic.setSound(evt);
+		return new IAcoustic[] { acoustic };
 	}
 
 	@Nonnull
