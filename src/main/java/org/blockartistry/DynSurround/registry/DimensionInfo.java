@@ -68,6 +68,12 @@ public final class DimensionInfo {
 		this.cloudHeight = this.skyHeight;
 		this.spaceHeight = this.skyHeight + SPACE_HEIGHT_OFFSET;
 
+		if (world.provider.isSurfaceWorld() && world.provider.hasSkyLight()) {
+			this.hasWeather = true;
+			this.hasAuroras = true;
+			this.hasFog = true;
+		}
+
 		// Force sea level based on known world types that give heartburn
 		final WorldType wt = world.getWorldType();
 
