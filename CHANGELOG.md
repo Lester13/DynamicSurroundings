@@ -1,3 +1,9 @@
+### DynamicSurroundings-1.12.2-3.4.10.2
+**Fixes**
+* Hotfix for crash at startup due to an existing coremod from an older version of Dynamic Surroundings being present.
+
+If you installed **v3.4.10.0** or **v3.4.10.1** prior you must remove the Dynamic Surroundings coremod from your mods/1.12.2 folder of your Minecraft instance.  If you don't your client will crash.  This hotfix should address the issue moving forward.
+
 ### DynamicSurroundings-1.12.2-3.4.10.1
 **Fixes**
 * Player speech bubbles should work again.
