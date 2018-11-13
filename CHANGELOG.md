@@ -1,3 +1,11 @@
+### DynamicSurroundings-1.12.2-3.4.10.1
+**Fixes**
+* Player speech bubbles should work again.
+* As a default allow dimensions that are surface and can see sky to have weather, aurora, and fog effects.  Should improve "out of the box" compat with Just Enough Dimensions.
+
+**Changes**
+* Tweaked Animania support to use interfaces.  Applies to Animania 1.6.0.2+
+
 ### DynamicSurroundings-1.12.2-3.4.10.0
 **What's New**
 * Display hunger/thirst indicators above Animania mobs when they are hungry/thirsty.  Option to disable can be found under Speech Bubble options.  Note that this feature has no effect if you do not have Animania installed.
