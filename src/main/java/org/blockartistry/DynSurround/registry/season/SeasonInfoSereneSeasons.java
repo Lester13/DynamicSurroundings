@@ -38,6 +38,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import sereneseasons.api.season.BiomeHooks;
 import sereneseasons.api.season.Season;
 import sereneseasons.api.season.SeasonHelper;
 import sereneseasons.config.BiomeConfig;
@@ -92,19 +93,9 @@ public class SeasonInfoSereneSeasons extends SeasonInfo {
 		}
 	}
 
-	private Season getSeasonData(@Nonnull final World world) {
-		return SeasonHelper.getSeasonState(world).getSeason();
-	}
-
 	@Override
-	public boolean canWaterFreeze(@Nonnull final World world, @Nonnull final BlockPos pos) {
-		return SeasonHelper.canSnowAtTempInSeason(getSeasonData(world), getTemperature(world, pos));
-	}
-
-	@Override
-	public boolean showFrostBreath(@Nonnull final World world, @Nonnull final BlockPos pos) {
-		final float temp = getTemperature(world, pos);
-		return temp < 0.2F || SeasonHelper.canSnowAtTempInSeason(getSeasonData(world), temp);
+	public float getFloatTemperature(@Nonnull final Biome biome, @Nonnull final BlockPos pos) {
+		return BiomeHooks.getFloatTemperature(biome, pos);
 	}
 
 	@Override

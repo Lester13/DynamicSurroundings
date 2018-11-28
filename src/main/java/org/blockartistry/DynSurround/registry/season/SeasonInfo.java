@@ -94,9 +94,13 @@ public class SeasonInfo {
 		return ClientChunkCache.INSTANCE.getPrecipitationHeight(pos);
 	}
 
+	public float getFloatTemperature(@Nonnull final Biome biome, @Nonnull final BlockPos pos) {
+		return ClientRegistry.BIOME.get(biome).getFloatTemperature(pos);
+	}
+	
 	public float getTemperature(@Nonnull final World world, @Nonnull final BlockPos pos) {
 		final Biome biome = ClientChunkCache.INSTANCE.getBiome(pos);
-		final float biomeTemp = ClientRegistry.BIOME.get(biome).getFloatTemperature(pos);
+		final float biomeTemp = getFloatTemperature(biome, pos);
 		final float heightTemp = world.getBiomeProvider().getTemperatureAtHeight(biomeTemp,
 				getPrecipitationHeight(world, pos).getY());
 		return heightTemp;

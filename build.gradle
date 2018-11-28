@@ -10,10 +10,37 @@ buildscript {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
     }
 }
+
+repositories {
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+    maven {
+        url "http://dvs1.progwml6.com/files/maven"
+    }
+    maven {
+        name "Mobius Repo"
+        url "http://mobiusstrip.eu/maven"
+    }
+    maven {
+        name "Foxiehost"
+        url "http://maven.foxiehost.eu"
+    }
+    maven {
+    	name "Chisel"
+    	url "http://maven.tterrag.com"
+    }
+    maven {
+		url 'https://repo.elytradev.com/'
+	}
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+}
+
 apply plugin: 'net.minecraftforge.gradle.forge'
-
-//Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
-
 
 ext.config = parseConfig(file('build.properties'))
 
@@ -41,38 +68,10 @@ minecraft {
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 }
 
-repositories {
-
-    maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven/"
-    }
-    
-    maven {
-        url "http://dvs1.progwml6.com/files/maven"
-    }
-    
-    maven {
-        name "Mobius Repo"
-        url "http://mobiusstrip.eu/maven"
-    }
-    
-    maven {
-        name "Foxiehost"
-        url "http://maven.foxiehost.eu"
-    }
-	
-    maven {
-    	name "Chisel"
-    	url "http://maven.tterrag.com"
-    }
-    
-    maven {
-		url 'https://repo.elytradev.com/'
-	}
-}
-
 dependencies {
+
+	compile "animania:animania:1.12.2:1.6.2"
+	compile "serene-seasons:SereneSeasons-1.12.2:1.2.10:universal"
 
     compile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.12.2-7.0.1.2399:deobf"
     
