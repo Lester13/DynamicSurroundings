@@ -1,3 +1,7 @@
+### DynamicSurroundings-1.12.2-3.4.10.3
+**Fixes**
+* Compatibility with latest Serene Seasons.  If you use Serene Seasons it must be at least version 1.2.10!
+
 ### DynamicSurroundings-1.12.2-3.4.10.2
 **Fixes**
 * Hotfix for crash at startup due to an existing coremod from an older version of Dynamic Surroundings being present.
