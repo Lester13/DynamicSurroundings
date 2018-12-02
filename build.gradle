@@ -71,7 +71,7 @@ minecraft {
 dependencies {
 
 	compile "animania:animania:1.12.2:1.6.2"
-	compile "serene-seasons:SereneSeasons-1.12.2:1.2.10:universal"
+	compile "serene-seasons:SereneSeasons-1.12.2:1.2.12:universal"
 
     compile "com.github.glitchfiend.biomesoplenty:BiomesOPlenty:1.12.2-7.0.1.2399:deobf"
     

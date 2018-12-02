@@ -1,3 +1,7 @@
+### DynamicSurroundings-1.12.2-3.4.10.4
+**Fixes**
+* Compatility with Serene Seasons 1.2.12+.  Dependency enforcement is in place and you will get a Forge notification if you are using an older version of Serene Seasons.
+
 ### DynamicSurroundings-1.12.2-3.4.10.3
 **Fixes**
 * Compatibility with latest Serene Seasons.  If you use Serene Seasons it must be at least version 1.2.10!
