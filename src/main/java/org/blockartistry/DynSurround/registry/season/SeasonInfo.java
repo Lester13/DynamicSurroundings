@@ -49,6 +49,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class SeasonInfo {
 
+	protected static final float FREEZE_TEMP = 0.15F;
+	protected static final float BREATH_TEMP = 0.2F;
 	protected static final String noSeason = Localization.loadString("dsurround.season.noseason");
 
 	protected final String dimensionName;
@@ -94,16 +96,14 @@ public class SeasonInfo {
 		return ClientChunkCache.INSTANCE.getPrecipitationHeight(pos);
 	}
 
-	public float getFloatTemperature(@Nonnull final World world, @Nonnull final Biome biome, @Nonnull final BlockPos pos) {
+	public float getFloatTemperature(@Nonnull final World world, @Nonnull final Biome biome,
+			@Nonnull final BlockPos pos) {
 		return ClientRegistry.BIOME.get(biome).getFloatTemperature(pos);
 	}
-	
+
 	public float getTemperature(@Nonnull final World world, @Nonnull final BlockPos pos) {
 		final Biome biome = ClientChunkCache.INSTANCE.getBiome(pos);
-		final float biomeTemp = getFloatTemperature(world, biome, pos);
-		final float heightTemp = world.getBiomeProvider().getTemperatureAtHeight(biomeTemp,
-				getPrecipitationHeight(world, pos).getY());
-		return heightTemp;
+		return getFloatTemperature(world, biome, pos);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class SeasonInfo {
 	 * @return true if water can freeze, false otherwise
 	 */
 	public boolean canWaterFreeze(@Nonnull final World world, @Nonnull final BlockPos pos) {
-		return getTemperature(world, pos) < 0.15F;
+		return getTemperature(world, pos) < FREEZE_TEMP;
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class SeasonInfo {
 	 * @return true if it is possible, false otherwise
 	 */
 	public boolean showFrostBreath(@Nonnull final World world, @Nonnull final BlockPos pos) {
-		return getTemperature(world, pos) < 0.2F;
+		return getTemperature(world, pos) < BREATH_TEMP;
 	}
 
 	protected boolean doDust(@Nonnull final BiomeInfo biome) {
@@ -135,12 +135,9 @@ public class SeasonInfo {
 	 * Determines the type of precipitation to render for the specified world
 	 * location/biome
 	 *
-	 * @param world
-	 *            The current client world
-	 * @param pos
-	 *            Position in the world for which the determination is being made
-	 * @param biome
-	 *            BiomeInfo reference for the biome in question
+	 * @param world The current client world
+	 * @param pos   Position in the world for which the determination is being made
+	 * @param biome BiomeInfo reference for the biome in question
 	 * @return The precipitation type to render when raining
 	 */
 	public PrecipitationType getPrecipitationType(@Nonnull final World world, @Nonnull final BlockPos pos,
@@ -155,7 +152,8 @@ public class SeasonInfo {
 		if (doDust(biome))
 			return PrecipitationType.DUST;
 
-		return canWaterFreeze(world, pos) ? PrecipitationType.SNOW : PrecipitationType.RAIN;
+		return getFloatTemperature(world, biome.getBiome(), pos) < FREEZE_TEMP ? PrecipitationType.SNOW
+				: PrecipitationType.RAIN;
 	}
 
 	@Override
