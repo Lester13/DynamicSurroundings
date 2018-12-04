@@ -25,15 +25,18 @@ package org.blockartistry.DynSurround.asm;
 
 import static org.objectweb.asm.Opcodes.ALOAD;
 
+import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InsnList;
 import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.objectweb.asm.tree.TryCatchBlockNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-public class PatchSoundManagerClampVolume  extends Transmorgrifier {
+public class PatchSoundManagerClampVolume extends Transmorgrifier {
 
 	public PatchSoundManagerClampVolume() {
 		super("net.minecraft.client.audio.SoundManager");
@@ -45,6 +48,11 @@ public class PatchSoundManagerClampVolume  extends Transmorgrifier {
 	}
 
 	@Override
+	public int classWriterFlags() {
+		return ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES;
+	}
+
+	@Override
 	public boolean transmorgrify(final ClassNode cn) {
 		final String names[] = { "getClampedVolume", "func_188770_e" };
 		final String sig = "(Lnet/minecraft/client/audio/ISound;)F";
@@ -53,16 +61,27 @@ public class PatchSoundManagerClampVolume  extends Transmorgrifier {
 		if (m != null) {
 			logMethod(Transformer.log(), m, "Found!");
 
-			final String owner = "org/blockartistry/DynSurround/client/sound/SoundEngine";
+			final String owner = "org/orecruncher/dsurround/client/sound/SoundEngine";
 			final String targetName = "getClampedVolume";
 			final String sig1 = "(Lnet/minecraft/client/audio/ISound;)F";
-			
+
+			// Need to wrap in try catch in case of stillborn client startup
+			final LabelNode tryStart = new LabelNode();
+			final LabelNode tryEnd = new LabelNode();
+			final LabelNode tryHandler = new LabelNode();
+			final TryCatchBlockNode tryCatch = new TryCatchBlockNode(tryStart, tryEnd, tryHandler,
+					"java/lang/Throwable");
+			m.tryCatchBlocks.add(tryCatch);
+
 			final InsnList list = new InsnList();
+			list.add(tryStart);
 			list.add(new VarInsnNode(ALOAD, 1));
 			list.add(new MethodInsnNode(Opcodes.INVOKESTATIC, owner, targetName, sig1, false));
 			list.add(new InsnNode(Opcodes.FRETURN));
-			m.instructions = list;
-			
+			list.add(tryEnd);
+			list.add(tryHandler);
+			m.instructions.insert(m.instructions.getFirst(), list);
+
 			return true;
 		} else {
 			Transformer.log().error("Unable to locate method {}{}", names[0], sig);
