@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
+import org.blockartistry.lib.ConfigProcessor;
 import org.blockartistry.lib.ConfigProcessor.Category;
 import org.blockartistry.lib.ConfigProcessor.Comment;
 import org.blockartistry.lib.ConfigProcessor.DefaultValue;
@@ -70,15 +71,15 @@ public final class ModOptions {
 		public static boolean enableVersionChecking = true;
 	}
 
-	private ModOptions() {
-	}
-
 	public static void load(final Configuration config) {
+
+		ConfigProcessor.process(config, ModOptions.class);
 
 		// Iterate through the config list looking for properties without
 		// comments. These will be scrubbed.
-		for (final String cat : config.getCategoryNames())
-			scrubCategory(config.getCategory(cat));
+		if (Presets.config() != null)
+			for (final String cat : config.getCategoryNames())
+				scrubCategory(config.getCategory(cat));
 
 	}
 
