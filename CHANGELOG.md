@@ -1,6 +1,14 @@
+### DynamicSurroundings-1.12.2-3.4.10.5
+**Fixes**
+* Backport ASM to prevent SoundManager crash when there is a mod dependency failure.
+* Properly initialize Presets! config file.
+
+**Changes**
+* Backport improved season processing related to temperature w/Serene Seasons.
+
 ### DynamicSurroundings-1.12.2-3.4.10.4
 **Fixes**
-* Compatility with Serene Seasons 1.2.12+.  Dependency enforcement is in place and you will get a Forge notification if you are using an older version of Serene Seasons.
+* Compatibility with Serene Seasons 1.2.12+.  Dependency enforcement is in place and you will get a Forge notification if you are using an older version of Serene Seasons.
 
 ### DynamicSurroundings-1.12.2-3.4.10.3
 **Fixes**
