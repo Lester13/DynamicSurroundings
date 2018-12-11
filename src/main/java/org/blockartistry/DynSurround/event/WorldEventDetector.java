@@ -26,10 +26,10 @@ package org.blockartistry.DynSurround.event;
 
 import javax.annotation.Nonnull;
 
+import org.blockartistry.DynSurround.DSurround;
 import org.blockartistry.DynSurround.ModOptions;
 import org.blockartistry.DynSurround.client.fx.particle.ExplosionHelper;
 import org.blockartistry.DynSurround.client.handlers.EnvironStateHandler.EnvironState;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -139,7 +139,12 @@ public class WorldEventDetector implements IWorldEventListener {
 		// Only want client side world things
 		if (!event.getWorld().isRemote)
 			return;
-		event.getWorld().addEventListener(new WorldEventDetector(event.getWorld()));
+		
+		try {
+			event.getWorld().addEventListener(new WorldEventDetector(event.getWorld()));
+		} catch (@Nonnull final Throwable t) {
+			DSurround.log().warn("Unable to add world listener - is world fake? [%s]", event.getWorld().getClass().getName());
+		}
 	}
 
 }
