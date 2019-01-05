@@ -31,6 +31,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import org.blockartistry.DynSurround.DSurround;
 import org.blockartistry.lib.collections.IdentityHashSet;
 
 import com.google.common.collect.ImmutableSet;
@@ -101,7 +102,16 @@ public final class BiomeUtils {
 
 	@Nonnull
 	public static Set<Type> getBiomeTypes(@Nonnull final Biome biome) {
-		return new IdentityHashSet<>(BiomeDictionary.getTypes(biome));
+		// It's possible to have a biome that is not registered come through here
+		// There is an internal check that will throw an exception if that is the
+		// case.  Seen this with OTG installed.
+		try {
+			return new IdentityHashSet<>(BiomeDictionary.getTypes(biome));
+		} catch (@Nonnull final Throwable t) {
+			DSurround.log().warn("Unable to get types for a biome!");
+		}
+
+		return new IdentityHashSet<>();
 	}
 
 	public static boolean areBiomesSimilar(@Nonnull final Biome b1, @Nonnull final Biome b2) {
