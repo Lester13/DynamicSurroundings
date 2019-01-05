@@ -43,7 +43,6 @@ public class Transformer extends MyTransformer {
 		addTransmorgrifier(new PatchEntityRenderer());
 		addTransmorgrifier(new PatchWorldServer());
 		addTransmorgrifier(new PatchSoundManager());
-		addTransmorgrifier(new PatchSoundManagerPlayTime());
 		addTransmorgrifier(new PatchSoundManagerClampVolume());
 		addTransmorgrifier(new PatchSoundManagerSync());
 		addTransmorgrifier(new PatchParticleManagerSync());
