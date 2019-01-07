@@ -1,3 +1,12 @@
+### DynamicSurroundings-1.12.2-3.4.10.6
+**Fixes**
+* OpenEye: Guard against non WorldClient world in mood processing.
+* OpenEye: Guard against modded client side worlds crashing when registering world listener.
+* Handle exception when processing biome that is not registered (OTG compat)
+
+**Changes**
+* Removed ASM for flushing sounds in Minecraft's sound engine.  Let me know if anything weird is encountered.
+
 ### DynamicSurroundings-1.12.2-3.4.10.5
 **Fixes**
 * Backport ASM to prevent SoundManager crash when there is a mod dependency failure.
